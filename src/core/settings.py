@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'level',
     'mcq',
     'mcqexam',
-    # 'posts',
+    'posts',
     'course',
     'student',
     'teacher',
