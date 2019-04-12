@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ title }} | {{ block.super }}
+{% endblock head_title %}
+
+  {% block current_detail_link %}
+    <li class="pull-center"><a class="text-success" href='{{ instance.get_absolute_url }}'>{{ title }}</a></li>
+  {% endblock %}
+
+
+{% block content %}
+<div class=''>
+    {% if instance.image %}
+    <img src='{{ instance.image.url }}' class='img-responsive' />
+    {% endif %}
+    <h1>{{ title }} <small>{% if instance.draft %}<span style='color:red;'>Draft</span> {% endif %}{{ instance.publish }}</small></h1>
+
+    <!-- {% if instance.read_time|time:"i" <= "01" %} < 1 minute {% else %}{{ instance.read_time|time:"i" }} minutes {% endif %} -->
+
+
+    {% if instance.user.get_full_name %}
+    <p>Author: {{ instance.user.get_full_name }}</p>
+    {% endif %}
+
+
+    <p><a href="{{ instance.get_absolute_url }}edit">Edit</a>          <a href="{{ instance.get_absolute_url }}delete">Delete</a></p>
+
+
+
+    <p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+    <hr/>
+    </p>
+
+    <div class='row'>
+        <div class='col-sm-12 '>
+           <div class='post-detail-item content-markdown'>{{ instance.get_markdown_question }}</div>
+            <hr/>
+
+            <div>
+                <a href="#ans_{{instance.id}}" class="mr-1 p-0" role="button" data-toggle="collapse" data-target="#ans_{{instance.id}}"  aria-controls="ans_{{instance.id}}" aria-expanded="false" aria-label="Toggle navigation">See answer</a>
+            </div>
+            <div id="ans_{{instance.id}}" class="collapse m-3 p-3 card">
+                <div class="card-body thumbnail">
+                    {{ instance.get_html_answer }}
+                </div>
+            </div>
+            <br>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

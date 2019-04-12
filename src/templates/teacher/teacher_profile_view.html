@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+<div class='card'>
+    <div class="row card-body">
+        <div class="col-sm-5">
+            {% if instance.user.image %}
+            <div>
+                <img src='{{ instance.user.image.url }}' / style="height: 150px; width: 150px; border-radius: 0%;">
+            </div>
+            {% endif %}
+            <div class="mt-2 pt-2">
+                <p class="m-0 p-0"><span class="text-uppercase text-muted">Rating:</span>  <span class="ml-2 pl-1 text-success">{{ instance.rating }}</span></p>
+            </div>
+            {% if instance.since %}
+            <div class="mt-1 pt-1">
+                <p class="m-0 p-0"><span class="text-uppercase text-muted">Teacher <small>since</small></span>  <span class="ml-2 pl-1 text-muted">{{ instance.since }}</span></p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-7">
+            {% if instance.user.get_full_name %}
+            <h2><a class="text-muted" href="{{instance.get_absolute_url}}">{{ instance.user.get_full_name }}</a></h2>
+            {% endif %}
+            <p class=" text-muted">@{{instance.user.username}}</p>
+
+            <div>
+                {% if instance.user.is_superuser %}
+                <div class="text-uppercase text-success"> Admin </div>
+                {% endif %}
+                {% if instance.user.is_teacher %}
+                <div><a class="text-uppercase text-muted" href="{{ instance.get_absolute_url }}" title="See Teacher Profile">teacher</a></div>
+                {% endif %}
+                {% if instance.user.is_student %}
+                <div><a class="text-uppercase text-muted" href="{{ instance.user.student.get_absolute_url }}" title="See Student Profile">student</a></div>
+                {% endif %}
+            </div>
+
+            <div class="float-right">
+                {% if instance.user.username == request.user.username %}
+                <a class="btn btn-outline-secondary bg-light text-muted" href="{{ instance.get_profile_update_url }}" title="Update teacher profile"><i class="fas fa-cogs"></i></a>
+                {% else %}
+                    {% if is_following %}
+                        <form id='unfollow' action="" method="POST">{% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class='btn btn-sm btn-outline-secondary bg-light text-muted' title="Disconnect from your connection list!"><i class="far fa-window-close"></i> <span>Disconnect</span> </button>
+                        </form>
+                    {% else %}
+                        <form id='follow' action="" method="POST">{% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class='btn btn-sm btn-outline-secondary bg-light text-muted' title="Connect with {{instance.user.username}}!"><i class="far fa-check-square"></i> <span>Connect</span> </button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        {% if instance.teacher_bio %}
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Bio</dt>
+                <dd class="col-sm-9 text-muted">{{ instance.teacher_bio }}</dd>
+            </dl>
+        </div>
+        {% endif %}
+
+        {% if instance.cv_file %}
+        <div>
+            <a class="text-uppercase text-muted" target="_blank" href="{{ instance.cv_file.url }}">Download CV</a>
+        </div>
+        {% endif %}
+
+
+        {% if instance.current_workplaces %}
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Current Working Places</dt>
+                <dd class="col-sm-9">
+                {% for cwp in instance.current_workplaces %}
+                    <div class="text-muted">{{ cwp }}</div>
+                {% endfor %}
+                </dd>
+            </dl>
+        </div>
+        {% endif %}
+
+        {% if instance.past_workplaces %}
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Previous Working Places</dt>
+                <dd class="col-sm-9">
+                {% for pwp in instance.past_workplaces %}
+                    <div class="text-muted">{{ pwp }}</div>
+                {% endfor %}
+                </dd>
+            </dl>
+        </div>
+        {% endif %}
+
+
+        {% if instance.cources.all %}
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Courses</dt>
+                <dd class="col-sm-9">
+                    <div>
+                    <span>
+                        <a href="#courses" data-toggle="collapse" aria-expanded="true" class="nav-link dropdown-toggle caret-off text-muted"><i class="fas fa-th-list text-info"></i><span> Courses</span></a>
+                    </span>
+                    <ul class="list-unstyled">
+                        <li class="dropdown ml-2">
+                            <ul class="show list-unstyled naves" id="courses">
+                            {% for c in instance.courses.all %}
+                                <li class="nav-link">
+                                    <i class="fas fa-book-open fa-1x"></i>
+                                    <a href="{{ c.get_content_url }}" title="level: {{ c.level }}">{{c.name}} [<span class="text-muted">{{ c.level }}</span>]</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        {% endif %}
+
+
+        {% if follows %}
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Follows</dt>
+                <dd class="col-sm-9">
+                    {% for follow_user in follows %}
+                    <div>
+                        <a class="text-muted" href="{{follow_user.get_user_url}}">{{follow_user.name}} - <small>@{{follow_user.username}}</small></a>
+                    </div>
+                    {% endfor %}
+                </dd>
+            </dl>
+        </div>
+        {% endif %}
+
+        {% if followers %}
+        <div>
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Followers</dt>
+                <dd class="col-sm-9">
+                    {% for follower_user in followers %}
+                    <div>
+                        <a class="text-muted" href="{{follower_user.get_user_url}}">{{follower_user.name}} - <small>@{{follower_user.username}}</small></a>
+                    </div>
+                    {% endfor %}
+                </dd>
+            </dl>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-4">
+                <a class="btn btn-sm btn-outline-secondary bg-light text-muted" href="{{ instance.user.get_user_url }}" title="See User Profile">User Profile</a>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+{% endblock content %}

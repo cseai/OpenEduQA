@@ -1,0 +1,196 @@
+{% load static %}
+{% load notifications_tags %}
+<!-- HEADER -->
+    <header class="navbar navbar-expand fixed-top flex-column flex-md-row py-0 px-1 px-sm-0" style="background-color: #FF4500 /*#248232*/ /*#bbc0c4 #bbc0c4 #fafafb*/; color: #FFFFFF /* #FFFFFF */ ; box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);">
+        <!-- style="background-color: #2A80BA; color: #FFFFFF ;" -->
+        <a class="navbar-brand d-none d-sm-none d-md-block m-0 p-0 mx-3 px-2 py-0 justify-left text-white" href="{% url 'index' %}" aria-label="OpenEduQA" title="OpenEduQA">OpenEduQA
+        </a>
+
+        {% if request.user.is_authenticated %}
+
+        <!-- Fixed Nav Items -->
+        <div class="collapse show flex-row mx-md-auto d-md-flex" id="fixedNavbar">
+
+            <ul class="nav ml-auto mr-auto d-flex">
+                <!-- Logo -->
+                <li class="nav-item d-md-none d-sm-block">
+                    <a class="nav-link text-white" href="{% url 'index' %}" title="OpenEduQA">OpenEduQA</a>
+                </li>
+                <!-- Home -->
+                <li class="nav-item activ">
+                    <a class="nav-link text-white" href="{% url 'index' %}" title="Home">
+                        <i class="fas fa-home fa-1x"></i>
+                        <span class="sr-only">(current)</span>
+                        <p class="d-none d-lg-inline-block m-0 ml-1 py-0">Home</p>
+                    </a>
+                </li>
+                <!-- User -->
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'accounts:profile' %}" title="User">
+                        <i class="fas fa-user-graduate fa-1x"></i>
+                        <p class="d-none d-lg-inline-block m-0 ml-1 py-0">{{ request.user.username }}</p>
+                    </a>
+                </li>
+
+                <!-- Notification -->
+                <li class="nav-item dropdown">
+                    {% notifications_unread as unread_count %}
+                    <a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target_notifications" role="button" aria-haspopup="true" aria-expanded="false" title="{% if unread_count %}You have {{ unread_count }} unread notifications.{% endif %}">
+                        {% if unread_count > 0 %}
+                            <i class="fas fa-bell fa-1x text-warning"></i>
+                        {% else %}
+                            <i class="fas fa-bell fa-1x"></i>
+                        {% endif %}
+                        <span class="text-warning">{% if unread_count %}{{ unread_count }}{% endif %}</span>
+                        <p class="d-none d-lg-inline-block m-0 ml-1 py-0"></p>
+                    </a>
+                    <ul id="notify_list" class="dropdown-menu" aria-labelledby="dropdown_target_notifications">
+                        <!-- <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'index' %}">Open More</a></li> -->
+                    </ul>
+                </li>
+
+                <!-- Article -->
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'article:list' %}" title="Article">
+                        <i class="fas fa-book"></i>
+                        <p class="d-none d-lg-inline-block m-0 ml-1 py-0">Article</p>
+                    </a>
+                </li>
+
+                <!-- Room -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'room:roomlist' %}" title="Room" style="color: #FFBF00;">
+                        <i class="fas fa-medal"></i>
+                        <!-- <i class="fas fa-user-graduate fa-1x"></i> -->
+                        <p class="d-none d-lg-inline-block text-white m-0 ml-1 py-0">Room</p>
+                    </a>
+                </li>
+
+                <!-- Practice -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="Practice">
+                        <i class="fas fa-book-reader"></i>
+                        <p class="d-none d-lg-inline-block m-0 ml-1 py-0">Practice</p>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown_target">
+                        <li><a class="dropdown-item" href="{% url 'mcq:list' %}"><i class="far fa-check-square"></i>MCQ</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'cq:list' %}"><i class="fab fa-quora"></i>CQ</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                    </ul>
+                </li>
+
+                <!-- Try Exam -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="Try Exam">
+                        <i class="fas fa-paper-plane"></i>
+                        <p class="d-none d-lg-inline-block m-0 ml-1 py-0">Try Exam</p>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown_target">
+                        <li><a class="dropdown-item" href="{% url 'mcqexam:list' %}"><i class="far fa-check-square"></i>MCQ Exam</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'cqexam:list' %}"><i class="fab fa-quora"></i>CQ Exam</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'exam:list' %}"><i class="fas fa-file-signature"></i>Combined Exam</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                    </ul>
+                </li>
+
+                <!-- Job -->
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="{% url 'teacher:teacherlist' %}" style="color: #FFBF00;" title="Job I/O">
+                        <i class="fab fa-connectdevelop fa-1x"></i>
+                        <p class="d-none d-lg-inline-block text-white m-0 ml-1">Job</p>
+                    </a>
+                </li> -->
+            </ul>
+        </div>
+        <!--end of Fixed Nav Items -->
+
+        <!-- Mediam screen device nav-content -->
+
+        <!-- Create -->
+        <ul class="navbar-nav flex-row mr-md-auto d-none d-md-flex">
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="Create">
+                    <i class="fas fa-plus-square fa-1x"></i>
+                    <p class="d-none d-lg-inline-block m-0 ml-1 py-0">Create</p>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown_target">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'article:create' %}">
+                            <i class="fas fa-book"></i>
+                            <span>Create Article</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'room:create' %}">
+                            <i class="far fa-calendar-alt mr-1"></i>
+                            <span>Create Room</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'exam:create' %}">
+                            <i class="fas fa-file-signature"></i>
+                            <span>Create Exam</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'cqexam:create' %}">
+                            <i class="fab fa-quora"></i>
+                            <span>Create CQ Exam</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'mcqexam:create' %}">
+                            <i class="far fa-check-square"></i>
+                            <span>Create MCQ Exam</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'cq:create' %}">
+                            <i class="fas fa-book"></i>
+                            <span>Create CQ</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'mcq:create' %}">
+                            <i class="fas fa-book"></i>
+                            <span>Create MCQ</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="far fa-question-circle mr-1"></i>
+                            <span>Help!</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- Logout Right Side -->
+        <a class="nav-link text-white d-none d-md-inline-block" href="{% url 'logout' %}" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <p class="d-none d-lg-inline-block m-0 ml-1 py-0">Logout</p>
+        </a>
+        <!-- end of Mediam screen device nav-content -->
+
+        {% else %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto nav-justified justify-content-around">
+            <li class="nav-item"><a class="nav-link" href='{% url "register" %}'>Register</a></li>
+            <li class="nav-item"><a class="nav-link" href='{% url "login" %}'><i class="fas fa-sign-in-alt"></i>Login</a></li>
+          </ul>
+        </div>
+        {% endif %}
+
+    </header>
+    <!-- END OF HEADER -->

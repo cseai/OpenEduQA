@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+    {% include "sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+
+
+<div class='col-sm-6 col-sm-offset-2'>
+    <h1>{{ title }}</h1>
+<form action="#" id="mcq_exam_form">
+{% for obj in object_list %}
+<div class="row mb-0 mt-0">
+  <div class="col-sm-12">
+    <div class="thumbnail">
+      <div class="caption post-detail-item">
+        <fieldset>
+        {% if obj.draft %}<h3>Staff only: Draft</h3>{% endif %} {% if obj.publish > today %}<h3>Staff Only: Future Post</h3>{% endif %}
+
+        <!-- <fieldset> -->
+        <legend>
+            {{forloop.counter}}.{{ obj.get_markdown_quistion }}
+        </legend>
+        {% if obj.user.get_full_name %}<p>Author: {{ obj.user.get_full_name }}</p>{% endif %}
+
+        <!-- <div class="form-check"> -->
+        {% for choice in obj.get_markdown_choices %}
+          <input class="form-check-input" type="radio" name="choice{{obj.id}}" id="exampleRadio-{{obj.id}}-{{forloop.counter}}" value="option{{forloop.counter}}">
+          <label class="form-check-label" for="exampleRadio-{{obj.id}}-{{forloop.counter}}"> <!-- style="display: inline;" -->
+            {{choice}}
+          </label>
+        {% endfor %}
+        <!-- </div> -->
+        </fieldset>
+        <div>
+            <p>Answer:</p>
+        {% for ans in obj.get_markdown_answer %}
+            <li> {{ ans }}</li>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+<hr/>
+</div>
+{% endfor %}
+</form>
+
+
+
+</div>
+</div>
+{% endblock content %}
+

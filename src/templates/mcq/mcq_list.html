@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+		{% include "sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+
+<!-- <div class='col-sm-6 col-sm-offset-3'> -->
+<div class=''>
+	<h2 class="text-center">
+	{{title}}
+	</h2>
+	<div class="card">
+		<div class="card-body thumbnail">
+			<form action="#" id="mcq_exam_form">
+			{% for obj in object_list %}
+				<ul>
+					<fieldset>
+						<dl class="row">
+							<dt class="col-sm-1">{{forloop.counter}}.</dt>
+							<dd class="col-sm-11">
+							{{ obj.get_html_question }}
+
+							<!-- <ol class=""> -->
+							{% for choice in obj.get_html_choices %}
+								<div class="form-check" >
+									<input class="form-check-input" type="radio" name="choice{{obj.id}}" id="exampleRadio-{{obj.id}}-{{forloop.counter}}" value="option{{forloop.counter}}">
+									<label class="form-check-label" for="exampleRadio-{{obj.id}}-{{forloop.counter}}" style="display: inline-block;"> <!-- style="display: inline;" -->
+											{{choice}}
+									</label>
+								</div>
+							{% endfor %}
+							<!-- </ol> -->
+
+							<div>
+								<!-- <hr> -->
+								<a href="#mcq_ans_{{forloop.counter}}" class="mr-1 p-0" role="button" data-toggle="collapse" data-target="#mcq_ans_{{forloop.counter}}"  aria-controls="mcq_ans_{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">See answer</a>
+								<a href="{{ obj.get_absolute_url }}">Detail</a>
+								<div id="mcq_ans_{{forloop.counter}}" class="collapse card">
+									<div class="card-body thumbnail">                   {% if obj.get_answer_len == 0 %}
+										<p class="text-warning">N.B: <span class="text-info"> No answers exist!</span></p>
+									{% elif obj.get_answer_len > 1 %}
+										<p class="text-warning">N.B: <span class="text-info"> More than 1 answers exist!</span></p>
+										{% for ans in obj.get_html_answer %}
+											<div class="">Answer-{{ forloop.counter }} : {{ ans }}</div>
+										{% endfor %}
+									{% else %}
+											{% for ans in obj.get_html_answer %}
+												<div class="">Answer : {{ ans }}</div>
+											{% endfor %}
+									{% endif %}
+									</div>
+								</div>
+							</div>
+
+						</dd>
+						</dl>
+					</fieldset>
+				</ul>
+			{% endfor %}
+			</form>
+		</div>
+		<div class="card-footer center-align">
+			<button form="mcq_exam_form" class="btn btn-outline-light" name="answersubmit" type="submit">Submit Answers</button>
+			<div class="" style="display: none">Result: </div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

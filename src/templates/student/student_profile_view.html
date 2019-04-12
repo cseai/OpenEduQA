@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+<div class=''>
+    <div class="row">
+        <div class="col-sm-5">
+            {% if instance.user.image %}
+            <img src='{{ instance.user.image.url }}' / style="height: 180px; width: 150px; border-radius: 5%;">
+            {% endif %}
+        </div>
+        <div class="col-sm-7">
+            {% if instance.user.get_full_name %}
+            <h2><a class="text-success" href="{{instance.get_absolute_url}}">{{ instance.user.get_full_name }}</a></h2>
+            {% endif %}
+            <p>@{{instance.user.username}}</p>
+        </div>
+    </div>
+    <br>
+
+    <div>
+        <p>Rating: {{ instance.rating }}</p>
+    </div>
+
+    {% if instance.since %}
+    <div><p>student since:  {{ instance.since }}.</p></div>
+    {% endif %}
+
+    {% if instance.student_bio %}
+    <div>
+        <dl class="row">
+            <dt class="col-sm-3">Bio</dt>
+            <dd class="col-sm-9">{{ instance.student_bio }}</dd>
+        </dl>
+    </div>
+    {% endif %}
+
+    {% if instance.cv_file %}
+    <div><a class="" target="_blank" href="{{ instance.cv_file.url }}">Download CV</a></div>
+    {% endif %}
+
+    {% for cc in instance.current_cources.all %}
+    <div>
+        <i class="fas fa-book-open fa-1x"></i>
+        <a href="newsfeed.html" title="">{{ cc.name }}</a>
+    </div>
+    {% endfor %}
+
+    {% if instance.current_workplaces %}
+    <div>
+        <dl class="row">
+            <dt class="col-sm-3">Current Working Places</dt>
+            <dd class="col-sm-9">
+            {% for cwp in instance.current_workplaces %}
+                <div>{{ cwp }}</div>
+            {% endfor %}
+            </dd>
+        </dl>
+    </div>
+    {% endif %}
+
+    {% if instance.past_workplaces %}
+    <div>
+        <dl class="row">
+            <dt class="col-sm-3">Previous Working Places</dt>
+            <dd class="col-sm-9">
+            {% for pwp in instance.past_workplaces %}
+                <div>{{ pwp }}</div>
+            {% endfor %}
+            </dd>
+        </dl>
+    </div>
+    {% endif %}
+
+
+    <div class="row">
+        <div class="col-sm-2">
+            <a class="btn btn-primary" href="{% url 'student:update' %}" title="Update student profile">Edit</a>
+        </div>
+        <div class="col-sm-2">
+            <a class="btn btn-primary" href="{{ instance.user.get_absolute_url }}" title="Go to User Profile">User Profile</a>
+        </div>
+    </div>
+    <br>
+
+</div>
+{% endblock content %}

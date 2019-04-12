@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+		{% include "sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+
+<!-- <div class='col-sm-6 col-sm-offset-3'> -->
+<div class=''>
+	<h2 class="text-center">
+				{{title}}
+	</h2>
+	<div class="card">
+		<div class="card-body thumbnail">
+			<!-- <form action="#" id="mcq_exam_form"> -->
+			{% for obj in object_list %}
+			<ul>
+				<dl class="row">
+					<dt class="col-sm-1">{{forloop.counter}}.</dt>
+					<dd class="col-sm-11">
+						{{ obj.get_html_question }}
+						<hr>
+						<div class="d-flex justify-content-around">
+							<a href="#cq_ans_{{forloop.counter}}" class="mr-1 p-0" role="button" data-toggle="collapse" data-target="#cq_ans_{{forloop.counter}}"  aria-controls="cq_ans_{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">See answer</a>
+							<a href="{{ obj.get_absolute_url }}">Detail</a>
+						</div>
+						<div id="cq_ans_{{forloop.counter}}" class="collapse m-3 p-3 card" > <!-- style="display: none; background-color: #f7fbf6;" -->
+							<div class="card-body thumbnail">
+							{{ obj.get_html_answer }}
+							</div>
+						</div>
+					</dd>
+				</dl>
+			</ul>
+			{% endfor %}
+			<!-- </form> -->
+		</div>
+		<!-- <div class="card-footer center-align">
+				<button form="mcq_exam_form" class="btn btn-outline-light" name="answersubmit" type="submit">Submit Answers</button>
+				<div class="" style="display: none">Result: </div>
+		</div> -->
+	</div>
+</div>
+{% endblock content %}

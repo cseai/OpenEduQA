@@ -1,0 +1,75 @@
+
+ {% load static %}
+{% block left_sidebar %}
+    <div class="collapse d-md-block" id="left_sidebar">
+        <div class="">
+            <div class="card " style="max-width: 96%;margin:auto !important;border: none;
+            box-shadow: 0px 0px 2px 0 #ccc;">
+            {% if request.user.follows.all %}
+                <div class="card-title text-muted m-2"><small>You are connected with...</small></div>
+                {% for f in request.user.follows.all %}
+                <div class="row no-gutters card-hover-shadow" style="height:60px;">
+                    <div class="col-md-3 "  style="width:40px; height:40px;">
+                        <img src="{{ f.image.url }}" class="card-img" alt="..." style="border-radius: 50%;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="mt-3">
+                          <a href="{{ f.get_user_url }}" class="">{{ f.name }}</a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock left_sidebar %}
+{% comment %}
+{% load static %}
+{% block left_sidebar %}
+<div class="widget stick-widget">
+    {% if request.user.follows.all %}
+    <ul class="followers" style="display:inline-block">
+        {% for f in request.user.follows.all %}
+        <li>
+            <figure style="width:40px; height:40px;"><img class="img-round" src="{{ f.image.url }}" alt=""></figure>
+            <div class="friend-meta">
+                <h4><a class="" href="{{ f.get_user_url }}" title="">{{ f.name }}</a></h4>
+                <a href="#" title="" class="underline">Add Friend</a>
+            </div>
+        </li>
+        {% endfor %}
+        <li>
+            <figure><img class="img-round" src="{% static 'new/images/resources/friend-avatar4.jpg' %}" alt=""></figure>
+            <div class="friend-meta">
+                <h4><a href="time-line.html" title="">Issabel</a></h4>
+                <a href="#" title="" class="underline">Add Friend</a>
+            </div>
+        </li>
+        <li>
+            <figure><img class="img-round" src="{% static 'new/images/resources/friend-avatar6.jpg' %}" alt=""></figure>
+            <div class="friend-meta">
+                <h4><a href="time-line.html" title="">Andrew</a></h4>
+                <a href="#" title="" class="underline">Add Friend</a>
+            </div>
+        </li>
+        <li>
+            <figure><img class="img-round" src="{% static 'new/images/resources/friend-avatar8.jpg' %}" alt=""></figure>
+            <div class="friend-meta">
+                <h4><a href="time-line.html" title="">Sophia</a></h4>
+                <a href="#" title="" class="underline">Add Friend</a>
+            </div>
+        </li>
+        <li>
+            <figure><img class="img-round" src="{% static 'new/images/resources/friend-avatar3.jpg' %}" alt=""></figure>
+            <div class="friend-meta">
+                <h4><a href="time-line.html" title="">Allen</a></h4>
+                <a href="#" title="" class="underline">Add Friend</a>
+            </div>
+        </li>
+    </ul>
+    {% endif %}
+</div><!-- who's following -->
+{% endblock left_sidebar %}
+{% endcomment %}

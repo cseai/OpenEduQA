@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ instance.title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block left_sidebar %}
+        <form action="search.php" method="GET" class="d-flex align-items-center col-12 px-0">
+            <input type="search" name="keywords" class="form-control" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" data-siteurl="" data-docs-version="">
+            <a class="float-end navbar-toggler nav-link d-md-none p-0 mx-3" data-toggle="collapse" data-target="#left_sidebar" aria-controls="left_sidebar" aria-expanded="false" aria-label="Toggle navigation" title="Expand Menu!"><span><i class="fas fa-bars fa-1x"></i></span>
+            </a>
+        </form>
+        <div class="collapse d-md-block" id="left_sidebar">
+            <!-- Mediam screen device nav-content -->
+            <h6 class="d-md-none d-sm-flex text-success">Hi there...</h6>
+            <ul class="navbar-nav flex-row mx-auto d-md-none d-sm-flex">
+                <li class="nav-item mx-auto">
+                    <a class="nav-link" href="#" title="Job"><i class="fab fa-connectdevelop fa-1x"></i><p class="d-inline-block m-0 ml-1 py-0 text-muted"><small>Job</small></p></a>
+                </li>
+                <li class="nav-item dropdown mx-auto">
+                    <a href="#" class="nav-link dropdown-toggle caret-off" data-toggle="dropdown" data-target="#dropdown_target_create" role="button" aria-haspopup="true" aria-expanded="false" title="Create"><i class="fas fa-plus-square fa-1x"></i><p class="d-inline-block m-0 ml-1 py-0 text-muted"><small>Create</small></p></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown_target_create">
+                        <li><a class="dropdown-item" href="#"><i class="far fa-calendar-alt mr-1"></i>Create Event</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Create Page</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Create University</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Create Branch</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown mx-auto">
+                    <a href="#" class="nav-link dropdown-toggle caret-off" data-toggle="dropdown" data-target="#dropdown_target_more" role="button" aria-haspopup="false" aria-expanded="false" title="More"><i class="fas fa-caret-down fa-1x"></i><p class="d-inline-block m-0 ml-1 py-0 text-muted"><small>More</small></p></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdown_target_more">
+                        <li><a class="dropdown-item" href="#"><i class="far fa-question-circle mr-1"></i>Help ?</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog mr-1"></i>Settings</a></li>
+                        <li role="separator" class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Manage Page</a></li>
+                        <li><a class="dropdown-item" href="#">Mange Branch</a></li>
+                    </ul>
+                </li>
+                <!-- Logout Right Side -->
+                <li class="nav-item mx-auto">
+                    <a class="nav-link d-inline-block mx-auto" href="logout.php" title="Logout"><i class="fas fa-sign-out-alt"></i><p class="d-inline-block m-0 ml-1 py-0 text-muted"><small>Logout</small></p></a>
+                </li>
+            </ul>
+            <!-- end of Mediam screen device nav-content -->
+
+
+            <!-- Current-Feed-Shotcuts of sidebar -->
+            <hr/>
+            <ul class="navbar-nav mr-auto">
+                <small class="text-muted">Current Feed Shotcuts...</small>
+                <div><hr/></div>
+                <!-- Query over all university of current user connected -->
+            </ul>
+            <!--end of Current-Feed-Shotcuts of sidebar -->
+
+            <!-- Subsection of sidebar -->
+            <hr/>
+            <h6 class="text-success">There you go...</h6>
+            <ul class="navbar-nav mr-auto text-center">
+                <small class="text-muted"> New at UCS ?... <a href="#">Learn</a></small>
+                <li>
+                    <p class="nav-link text-muted"><span><i class="far fa-copyright fa-1x"></i></span><small> 2018 UCS</small></p>
+                </li>
+            </ul>
+            <!--end of Subsection of sidebar -->
+        </div>
+{% endblock left_sidebar %}
+
+{% block content %}
+<div > <!-- class='col-sm-6 col-sm-offset-3' -->
+    <h1 class="display-4">Welcome to OpenEduQA!</h1>
+    <br>
+    <hr>
+    <div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo laboriosam dignissimos voluptatibus, tempora aspernatur enim ea vitae doloremque numquam dolorum excepturi error aliquid quis ut natus aperiam, consequatur dolorem eveniet.</p>
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block right_sidebar %}
+    <p>Education is the backbone of a nation</p>
+{% endblock right_sidebar %}

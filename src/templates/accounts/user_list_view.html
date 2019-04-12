@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+<div class=''>
+{% for instance in user_objects %}
+    <div>
+        <div class="row">
+            <div class="col-sm-4 m-3 p-3">
+
+                {% if instance.image %}
+                <div class="row">
+                    <div class="m-3 p-3">
+                        <img src='{{ instance.image.url }}' / style="height: 80px; width: 80px; border-radius: 50%;">
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="row">
+                    <div><a href="{{ instance.get_user_url }}">{{ instance.name }}</a></div>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                {% if instance.bio %}
+                <div class="row">
+                    {{ instance.bio|truncatechars_html:80 }}
+                </div>
+                <br>
+                {% endif %}
+                <div class="row text-success">
+                    {% if instance.is_superuser %}
+                    <div> admin </div>
+                    {% endif %}
+                    {% if instance.is_stuff %}
+                    <div> stuff </div>
+                    {% endif %}
+                    {% if instance.is_teacher %}
+                    <div><a href="{{ instance.teacher.get_absolute_url }}">teacher</a></div>
+                    {% endif %}
+                    {% if instance.is_student %}
+                    <div><a href="{{ instance.student.get_absolute_url }}">student</a></div>
+                    {% endif %}
+                    {% if instance.is_guest %}
+                    <div> guest </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+{% endfor %}
+
+</div>
+{% endblock content %}

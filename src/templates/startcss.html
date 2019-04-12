@@ -1,0 +1,110 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    {% if 1 is 0 %} <!-- This is for clean up page -->
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff"> -->
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="{% static 'dist/css/bootstrap-reboot.min.css' %}"> -->
+    <!-- <link rel="stylesheet" href="{% static 'dist/css/bootstrap.min.css' %}"> -->
+    {% endif %}
+    <!-- Font awesome -->
+    <script src="{% static 'fontawesome/js/all.js' %}"></script>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+
+    {% if 1 is 0 %} <!-- This is for clean up page -->
+    <!--JavaScript code prettifier:  https://github.com/google/code-prettify  -->
+    <!-- <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="dist/prettify/prettify.css"> -->
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/prettify/skins/belal.css' %}">
+    {% if 1 is 0 %} <!-- This is for clean up page -->
+    <!-- <link rel="stylesheet" type="text/css" href="dist/prettify/skins/desert.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="dist/prettify/skins/doxy.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="dist/prettify/skins/sons-of-obsidian.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="dist/prettify/skins/sunburst.css"> -->
+    {% endif %}
+    <script type="text/javascript" src="{% static 'dist/prettify/prettify.js' %}"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <style>
+        /* To remove caret from dropdown */
+        .caret-off::before {
+            display: none;
+        }
+        .caret-off::after {
+            display: none;
+        }
+        body{
+            background-color: #fff;  /*#f7f7f7 */ /* #e9ebee ;*/
+            height: 100%
+        }
+        .left_col {
+          position: relative;
+          max-height: calc(100vh - 3rem);
+          overflow-y: auto;
+        }
+        .main_col {
+          position:  relative;
+          max-height: calc(100vh - 3rem);
+          overflow-y: auto;
+        }
+
+        .right_col {
+          position: relative;
+          max-height: calc(100vh - 3rem);
+          overflow-y: auto;
+        }
+
+        /* // Large devices (desktops, 992px and up)
+            https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints
+        */
+        @media (min-width: 992px) {
+          /* Custom Scrollbar. Note: The -webkit-scrollbar is not supported by Firefox or IE and Edge. */
+          /* width */
+            ::-webkit-scrollbar {
+              width: 5px;
+            }
+
+            /* Track */
+            ::-webkit-scrollbar-track {
+              background: #f1f1f1;
+            }
+
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+              background: #888;
+            }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+              background: #555;
+            }
+        }
+        /* pre {
+            background-color: #f6f8fa !important;
+            padding: 16px !important;
+        }
+         */
+    </style>
+    <title>{% block head_title %}OpenEduQA{% endblock head_title %}</title>

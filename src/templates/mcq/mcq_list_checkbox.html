@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block sidebar %}
+    {% include "sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+
+<!-- <div class='col-sm-6 col-sm-offset-3'> -->
+<div class=''>
+  <h2 class="text-center">
+        {{title}}
+  </h2>
+  <div class="card">
+    <div class="card-body thumbnail">
+        <form action="" method="POST" id="mcq_exam_form">
+        {% for obj in object_list %}
+          <ul>
+            <fieldset>
+              <dl class="row">
+                <dt class="col-sm-1">{{forloop.counter}}.</dt>
+                <dd class="col-sm-11">
+                {{ obj.get_html_question }}
+
+                {% for choice in obj.get_html_choices %}
+                  <div class="form-check" >
+                    <input class="form-check-input" type="checkbox" name="{{forloop.parentloop.counter}}" id="{{forloop.parentloop.counter}}-{{forloop.counter}}" value="{{forloop.counter}}">
+                    <label class="form-check-label" id="label-{{forloop.parentloop.counter}}-{{forloop.counter}}" for="{{forloop.parentloop.counter}}-{{forloop.counter}}" style="display: inline-block;">
+                        {{choice}}
+                    </label>
+                  </div>
+                {% endfor %}
+
+                <div class="" id="checked-{{ forloop.counter }}"></div>
+                <div>
+                  <!-- <hr> -->
+                  <a href="#ans_{{forloop.counter}}" class="mr-1 p-0" role="button" data-toggle="collapse" data-target="#ans_{{forloop.counter}}"  aria-controls="ans_{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">See answer</a>
+                  <a href="{{ obj.get_absolute_url }}">Detail</a>
+                  <div id="ans_{{forloop.counter}}" class="collapse card">
+                    <div class="card-body thumbnail">
+                    {% if obj.get_answer_len == 0 %}
+                      <p class="text-warning">N.B: <span class="text-info"> No answers exist!</span></p>
+                    {% elif obj.get_answer_len > 1 %}
+                      <p class="text-warning">N.B: <span class="text-info"> More than 1 answers exist!</span></p>
+                      {% for ans in obj.get_html_answer %}
+                        <div class="">Answer-{{ forloop.counter }} : {{ ans }}</div>
+                      {% endfor %}
+                    {% else %}
+                        {% for ans in obj.get_html_answer %}
+                          <div class="">Answer : {{ ans }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+              </dd>
+              </dl>
+
+            </fieldset>
+          </ul>
+          <div class="" style="display: none">Answer:
+            {% for ans in obj.get_html_answer %}
+                <div class=""> {{ ans }}</div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        </form>
+    </div>
+    <div class="card-footer center-align">
+        <button form="mcq_exam_form" class="btn btn-outline-light" name="answersubmit" type="submit">Submit Answers</button>
+        <div class="" style="display: none">Result: </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block lastscript %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        // var length = {{length}};
+        {% for obj in object_list %}
+          $('input[name="{{forloop.counter}}"]').click(function () {
+              console.log({{obj.answer}});
+              getSCB({{forloop.counter}}, new Set({{obj.answer}}));
+              // console.log('out-> input[name="'+'{{forloop.counter}}'+'"]');
+          });
+        {% endfor %}
+
+        var getSCB = function (groupName, ans) {
+            var result = $('input[name="' + groupName + '"]:checked');
+            if (result.length > 0) {
+                var resultString = result.length + " checkboxe(s) checked<br/>";
+                result.each(function () {
+                    resultString += $(this).val() + ", ";
+                    let checkedval = $(this).val();
+                    console.log(Number($(this).val()), ans, ans.has(Number(checkedval)));
+
+                    if (ans.has(Number($(this).val()))) {
+                      $('#label-'+groupName+'-'+$(this).val()).addClass('bg-success');
+                      console.log("Correct answer",$('#label-'+groupName+'-'+$(this).val()));
+                    }else{
+                      $('#label-'+groupName+'-'+$(this).val()).addClass('bg-warning');
+                    }
+                });
+                $('#checked-' + groupName).html(resultString);
+
+            }
+            else {
+                $('#checked-' + groupName).html("No checkbox checked");
+            }
+        };
+    });
+</script>
+{% endblock lastscript %}

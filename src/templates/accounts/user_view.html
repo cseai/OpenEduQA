@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ title }} | {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+<div class="card" >
+    <div class="row card-body">
+        <div class="col-sm-5">
+            {% if instance.image %}
+            <div>
+                <img src='{{ instance.image.url }}' / style="height: 150px; width: 150px; border-radius: 0%;">
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-7">
+            {% if instance.get_full_name %}
+            <h2><a class="text-muted" href="{{instance.get_user_url}}">{{ instance.get_full_name }}</a></h2>
+            {% endif %}
+            <p class="text-muted">@{{instance.username}}</p>
+
+            <div>
+                {% if instance.is_superuser %}
+                <div class="text-uppercase text-success"> Admin </div>
+                {% endif %}
+                {% if instance.is_teacher %}
+                <div><a class="text-uppercase text-muted" href="{{ instance.teacher.get_absolute_url }}" title="See Teacher Profile">teacher</a></div>
+                {% endif %}
+                {% if instance.is_student %}
+                <div><a class="text-uppercase text-muted" href="{{ instance.student.get_absolute_url }}" title="See Student Profile">student</a></div>
+                {% endif %}
+            </div>
+            <div class="float-right">
+                {% if instance.username == request.user.username %}
+                <a class="btn btn-outline-secondary bg-light text-muted" href="{{ instance.get_profile_update_url }}" title="Update profile"><i class="fas fa-cogs"></i></a>
+                {% else %}
+                    {% if is_following %}
+                        <form id='unfollow' action="" method="POST">{% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class='btn btn-sm btn-outline-secondary bg-light text-muted' title="Disconnect from your connection list!"><i class="far fa-window-close"></i> <span>Disconnect</span> </button>
+                        </form>
+                    {% else %}
+                        <form id='follow' action="" method="POST">{% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class='btn btn-sm btn-outline-secondary bg-light text-muted' title="Connect with {{instance.username}}!"><i class="far fa-check-square"></i> <span>Connect</span> </button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        {% if instance.bio %}
+        <div class="">
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Bio</dt>
+                <dd class="col-sm-9 text-muted">{{ instance.bio }}</dd>
+            </dl>
+        </div>
+        {% endif %}
+
+
+        {% if instance.current_address %}
+        <div class="">
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Current adrress</dt>
+                <dd class="col-sm-9 text-muted">{{ instance.current_address }}</dd>
+            </dl>
+        </div>
+        {% endif %}
+
+        {% if instance.parmanent_address %}
+        <div class="">
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Parmanent address</dt>
+                <dd class="col-sm-9 text-muted">{{ instance.parmanent_address }}</dd>
+            </dl>
+        </div>
+        {% endif %}
+
+
+        {% if follows %}
+        <div class="">
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Follows</dt>
+                <dd class="col-sm-9">
+                    {% for follow_user in follows %}
+                    <div>
+                        <a class="text-muted" href="{{follow_user.get_user_url}}">{{follow_user.name}} - <small>@{{follow_user.username}}</small></a>
+                    </div>
+                    {% endfor %}
+                </dd>
+            </dl>
+        </div>
+        {% endif %}
+
+        {% if followers %}
+        <div class="">
+            <dl class="row">
+                <dt class="col-sm-3 text-uppercase text-muted">Followers</dt>
+                <dd class="col-sm-9">
+                    {% for follower_user in followers %}
+                    <div>
+                        <a class="text-muted" href="{{follower_user.get_user_url}}">{{follower_user.name}} - <small>@{{follower_user.username}}</small></a>
+                    </div>
+                    {% endfor %}
+                </dd>
+            </dl>
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+{% endblock content %}

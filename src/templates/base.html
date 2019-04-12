@@ -1,0 +1,125 @@
+{% load static %}
+{% load staticfiles %}
+{% load notifications_tags %}
+
+{% include "startcss.html" %}
+
+<!--start for datetimepicker -->
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+<!--end for datetimepicker -->
+
+{% block style %}{% endblock style %}
+
+<style>
+    /* To remove caret from dropdown */
+    .caret-off::before {
+        display: none;
+    }
+    .caret-off::after {
+        display: none;
+    }
+</style>
+{% block head_extra %} {% endblock head_extra %}
+</head>
+<body>
+    <!-- HEADER -->
+    {% include "header_nav.html" %}
+    <!-- END OF HEADER -->
+
+    <!-- MAIN BODY  CONTAINER -->
+    <div class="container-fluid pt-0 pt-md-1 ">
+        <!-- gap-for-fixed-navbar -->
+        <div class="row my-3 py-1"></div>
+        <!-- Message Display -->
+        <div class="row bg-light">
+            <div class="col-12">
+                {% bootstrap_messages %}
+                {% if 1 is 0 %}
+                <div class="bg-info">
+                    {% include "messages_display.html" %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- Container-row -->
+        <div class="row flex-xl-nowrap feed">
+            <!-- LEFT-Sidebar -->
+            <nav id="left_col_collapse" class="left_col collapse navbar col-12 col-md-3 col-xl-3 pr-1 d-md-inline-block" style="background-color: #f7f7f7;">
+            {% block left_sidebar %}
+                {% if request.user.is_authenticated %}
+                    {% include "leftsidebar.html" %}
+                {% endif %}
+            {% endblock left_sidebar %}
+            </nav>
+            <!--End of LEFT-Sidebar -->
+
+            <!-- MAIN-FEED  -->
+            <main class="main_col col-12 col-md-9 col-xl-6 m-0 p-0 px-md-3 bd-content" role="main" style="background-color: rgb(227,231,233); height: 100vh; ">
+            {% block content %}{% endblock content %}
+            </main>
+            <!-- End of MAIN-FEED -->
+
+            <!-- RIGHT SIDE CONTENT -->
+            <div class="right_col d-none d-xl-block col-xl-3" style="background-color: #f7f7f7;">
+                <div>
+                    {% block right_sidebar %}
+                        {% if request.user.is_authenticated %}
+                            {% include "rightsidebar.html" %}
+                        {% endif %}
+                    {% endblock right_sidebar %}
+                </div>
+            </div>
+            <!--End of RIGHT SIDE CONTENT -->
+        </div>
+        <!-- Container-row -->
+    </div>
+    <!--END OF MAIN BODY -->
+
+{% include "endjs.html" %}
+
+<script>
+function my_special_notification_callback(data) {
+    for (var i=0; i < data.unread_list.length; i++){
+        msg = data.unread_list[i];
+        try{
+            var url = msg['data']['data']['url'];
+        }
+        catch{
+            url = '#';
+        }
+        console.log('url:',url);
+        var list_item_id = 'n_l_'+msg['id'];
+        var list_item = document.getElementById(list_item_id);
+        if(list_item == null){
+            list_item = document.createElement("li");
+            list_item.id = list_item_id;
+            list_item.setAttribute('class', 'm-2 p-2')
+            var node = document.createTextNode(msg['verb']+" at "+msg['timestamp']);
+            var link = document.createElement("a");
+            link.setAttribute('href', url);
+            link.setAttribute('class','m-2 p-2 dropdown-item');
+            link.setAttribute('style','color: #60c685');
+            link.appendChild(node);
+            // para = document.createElement("p");
+            document.getElementById("notify_list").appendChild(list_item).appendChild(link);
+        }else{
+            // ;
+        }
+    }
+}
+</script>
+<script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+{% register_notify_callbacks fetch='20' callbacks='fill_notification_list,fill_notification_badge,my_special_notification_callback' %}
+
+
+{% block lastscript %}
+{% endblock lastscript %}
+</body>
+</html>
+
+
+
+

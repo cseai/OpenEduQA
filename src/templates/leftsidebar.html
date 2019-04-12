@@ -1,0 +1,69 @@
+{% load static %}
+{% block right_sidebar %}
+    <form action="" method="GET" class="d-flex align-items-center col-10 px-0">
+        <input type="text" name="q" class="form-control" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off" data-siteurl="" data-docs-version="">
+        <a class="float-end navbar-toggler nav-link d-md-none p-0 mx-3" data-toggle="collapse" data-target="#left_sidebar" aria-controls="left_sidebar" aria-expanded="false" aria-label="Toggle navigation" title="Expand Menu!"><span><i class="fas fa-bars fa-1x"></i></span>
+        </a>
+    </form>
+    <br>
+    <div class="collapse d-md-block" id="left_sidebar">
+        <div class="widget">
+            <h4 class="widget-title text-muted">Shortcuts</h4>
+            <ul class="naves">
+            {% if request.user.is_student %}
+                <h5>Student Shortcuts</h5>
+                <hr>
+                {% if request.user.student.current_courses.all %}
+                    <span>
+                        <a href="#current_courses" data-toggle="collapse" aria-expanded="true" class="nav-link dropdown-toggle caret-off text-muted"><i class="fas fa-list-alt text-primary"></i><span> Current Courses</span></a>
+                    </span>
+                    <li class="dropdown ml-2">
+                        <ul class="show list-unstyled naves" id="current_courses">
+                        {% for curc in request.user.student.current_courses.all %}
+                            <li class="nav-link">
+                                <i class="fas fa-book-open fa-1x"></i>
+                                <a href="{{ curc.get_content_url }}" title="level: {{ curc.level }}">{{curc.name}} [<span class="text-muted">{{ curc.level }}</span>]</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if request.user.student.completed_courses.all %}
+                    <span>
+                        <a href="#completed_courses" data-toggle="collapse" aria-expanded="false" class="nav-link dropdown-toggle caret-off text-muted"><i class="far fa-list-alt fa-1x text-success"></i> <span>Completed Courses</span></a>
+                    </span>
+                    <li class="dropdown ml-2">
+                        <ul class="collapse list-unstyled naves" id="completed_courses">
+                        {% for comc in request.user.student.completed_courses.all %}
+                            <li class="nav-link">
+                                <i class="fas fa-book-open fa-1x"></i>
+                                <a href="{{ comc.get_content_url }}" title="level: {{ comc.level }}">{{comc.name}} [<span class="text-muted">{{ comc.level }}</span>]</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endif %}
+            {% if request.user.is_teacher %}
+                <h5>Teacher Shortcuts</h5>
+                <hr>
+                {% if request.user.teacher.courses.all %}
+                    <span>
+                        <a href="#courses" data-toggle="collapse" aria-expanded="true" class="nav-link dropdown-toggle caret-off text-muted"><i class="fas fa-th-list text-info"></i><span> Courses</span></a>
+                    </span>
+                    <li class="dropdown ml-2">
+                        <ul class="show list-unstyled naves" id="courses">
+                        {% for c in request.user.teacher.courses.all %}
+                            <li class="nav-link">
+                                <i class="fas fa-book-open fa-1x"></i>
+                                <a href="{{ c.get_content_url }}" title="level: {{ c.level }}">{{c.name}} [<span class="text-muted">{{ c.level }}</span>]</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                {% endif %}
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock right_sidebar %}

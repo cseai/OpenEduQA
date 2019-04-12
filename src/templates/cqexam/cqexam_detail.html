@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ title }} | {{ block.super }}
+{% endblock head_title %}
+
+	{% block current_detail_link %}
+	<li class="pull-center"><a class="text-success" href='{{ instance.get_absolute_url }}'>{{ title }}</a></li>
+	{% endblock %}
+
+
+{% block content %}
+<div class=''>
+	{% if instance.image %}
+	<img src='{{ instance.image.url }}' class='img-responsive' />
+	{% endif %}
+	<h1>{{ title }} <small>{% if instance.draft %}<span style='color:red;'>Draft</span> {% endif %}{{ instance.publish }}</small></h1>
+
+	{% if instance.user.get_full_name %}
+	<p>Author: {{ instance.user.get_full_name }}</p>
+	{% endif %}
+
+
+	<p><a href="{{ instance.get_absolute_url }}edit">Edit</a>          <a href="{{ instance.get_absolute_url }}delete">Delete</a></p>
+
+	<div class='row'>
+		<div class='col-sm-12 '>
+			<div class='post-detail-item content-markdown'>{{ instance.description }}</div>
+			{% if instance.duration %}<div class='text-info'>Time: {{ instance.duration }}</div>{% endif %}
+			<hr/>
+			<div class="card">
+				<div class="card-body thumbnail">
+				{% for obj in object_list %}
+					<ul>
+						<dl class="row">
+							<dt class="col-sm-1">{{forloop.counter}}.</dt>
+							<dd class="col-sm-11">
+								{{ obj.get_html_question }}
+								<hr>
+								<div class="d-flex justify-content-around">
+									<a href="#ans_{{forloop.counter}}" class="mr-1 p-0" role="button" data-toggle="collapse" data-target="#ans_{{forloop.counter}}"  aria-controls="ans_{{forloop.counter}}" aria-expanded="false" aria-label="Toggle navigation">See answer</a>
+									<a href="{{ obj.get_absolute_url }}">Detail</a>
+								</div>
+								<div id="ans_{{forloop.counter}}" class="collapse m-3 p-3 card" >
+									<div class="card-body thumbnail">
+										{{ obj.get_html_answer }}
+									</div>
+								</div>
+							</dd>
+						</dl>
+					</ul>
+				{% endfor %}
+				</div>
+			</div>
+			<br>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

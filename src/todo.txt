@@ -1,0 +1,6 @@
+## Notification system
+- profile created
+- follower posted
+- someone commented on your post
+- someone replied on your comment
+-  

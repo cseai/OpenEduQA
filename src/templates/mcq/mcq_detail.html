@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load urlify %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+{{ title }} | {{ block.super }}
+{% endblock head_title %}
+
+	{% block current_detail_link %}
+	<li class="pull-center"><a class="text-success" href='{{ instance.get_absolute_url }}'>{{ title }}</a></li>
+	{% endblock %}
+
+
+{% block content %}
+<div class=''>
+	{% if instance.image %}
+	<img src='{{ instance.image.url }}' class='img-responsive' />
+	{% endif %}
+	<h1>{{ title }} <small>{% if instance.draft %}<span style='color:red;'>Draft</span> {% endif %}{{ instance.publish }}</small></h1>
+
+	<!-- {% if instance.read_time|time:"i" <= "01" %} < 1 minute {% else %}{{ instance.read_time|time:"i" }} minutes {% endif %} -->
+
+
+	{% if instance.user.get_full_name %}
+	<p>Author: {{ instance.user.get_full_name }}</p>
+	{% endif %}
+
+
+	<p><a href="{{ instance.get_absolute_url }}edit">Edit</a>      <a href="{{ instance.get_absolute_url }}delete">Delete</a></p>
+
+
+
+	<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+	<hr/>
+	</p>
+
+	<div class='row'>
+		<div class='col-sm-12 '>
+			<div class=''> <!-- post-detail-item content-markdown -->
+				{{ instance.get_html_question }}
+			</div>
+			<hr/>
+			<div>
+				<ul>
+					<fieldset>
+						<div class="row">
+							<!-- <ol class=""> -->
+							{% for choice in instance.get_html_choices %}
+								<div class="form-check" >
+									<input class="form-check-input" type="radio" name="choice{{instance.id}}" id="exampleRadio-{{instance.id}}-{{forloop.counter}}" value="option{{forloop.counter}}">
+									<label class="form-check-label" for="exampleRadio-{{instance.id}}-{{forloop.counter}}" style="display: inline-block;"> <!-- style="display: inline;" -->
+											{{choice}}
+									</label>
+								</div>
+							{% endfor %}
+							<!-- </ol> -->
+
+							<div>
+								<!-- <hr> -->
+								<a href="#ans_{{instance.id}}" class="mr-1 p-0" role="button" data-toggle="collapse" data-target="#ans_{{instance.id}}"  aria-controls="ans_{{instance.id}}" aria-expanded="false" aria-label="Toggle navigation">See answer</a>
+								<div id="ans_{{instance.id}}" class="collapse card">
+									<div class="card-body thumbnail">                   {% if instance.get_answer_len == 0 %}
+										<p class="text-warning">N.B: <span class="text-info"> No answers exist!</span></p>
+									{% elif instance.get_answer_len > 1 %}
+										<p class="text-warning">N.B: <span class="text-info"> More than 1 answers exist!</span></p>
+										{% for ans in instance.get_html_answer %}
+											<div class="">Answer-{{ forloop.counter }} : {{ ans }}</div>
+										{% endfor %}
+									{% else %}
+											{% for ans in instance.get_html_answer %}
+												<div class="">Answer : {{ ans }}</div>
+											{% endfor %}
+									{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</fieldset>
+				</ul>
+				<div class="" style="display: none">Answer:
+					{% for ans in instance.get_markdown_answer %}
+							<div class=""> {{ ans }}</div>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div id="ans_{{instance.id}}" class="collapse m-3 p-3 card">
+				<div class="card-body thumbnail">
+					{{ instance.get_html_answer }}
+				</div>
+			</div>
+			<br>
+
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}

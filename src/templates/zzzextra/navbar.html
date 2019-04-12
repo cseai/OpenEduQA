@@ -1,0 +1,73 @@
+<!-- HEADER -->
+		<header class="navbar navbar-expand fixed-top flex-column flex-md-row py-0 px-1 px-sm-0" style="background-color: #248232 /*#bbc0c4 #bbc0c4 #fafafb*/; color: #FFFFFF /* #FFFFFF */ ; box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);">
+			<!-- style="background-color: #2A80BA; color: #FFFFFF ;" -->
+			<a class="navbar-brand d-none d-sm-none d-md-block m-0 p-0 mx-3 px-2 py-0 justify-left text-white" href="home.php" aria-label="UCS" title="UCS">UCS
+			</a>
+			<!-- Fixed Nav Items -->
+			<div class="collapse show flex-row mx-md-auto d-md-flex" id="fixedNavbar">
+
+				<ul class="nav ml-auto mr-auto d-flex">
+					<li class="nav-item d-md-none d-sm-block">
+						<a class="nav-link text-white" href="#" title="UCS">UCS</a>
+					</li>
+					<li class="nav-item activ"><a class="nav-link text-white" href="home.php" title="Home"><i class="fas fa-home fa-1x"></i><span class="sr-only">(current)</span><p class="d-none d-lg-inline-block m-0 ml-1 py-0">Home</p></a></li>
+					<li class="nav-item"><a class="nav-link text-white" href="userprofile.php" title="User"><i class="fas fa-user-graduate fa-1x"></i><p class="d-none d-lg-inline-block m-0 ml-1 py-0"><?php echo $_SESSION['first_name']; ?></p></a></li>
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="Attention"><i class="fas fa-bell fa-1x"></i><p class="d-none d-lg-inline-block m-0 ml-1 py-0">Attention</p></a>
+						<ul class="dropdown-menu" aria-labelledby="dropdown_target">
+							<li><a class="dropdown-item" href="#">Send Notice</a></li>
+							<li role="separator" class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Send Application</a></li>
+							<li role="separator" class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Notice</a></li>
+							<li role="separator" class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Application</a></li>
+						</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="university.php" style="color: #FFBF00;" title="University"><i class="fas fa-university fa-1x" style="color: #FFBF00;"></i><p class="d-none d-lg-inline-block m-0 ml-1">University</p></a>
+					</li>
+					<li class="nav-item d-sm-block d-none">
+						<a class="nav-link text-white" href="#" title="Job"><i class="fab fa-connectdevelop fa-1x"></i><p class="d-none d-lg-inline-block m-0 ml-1 py-0">Job</p></a>
+					</li>
+					<li class="nav-item d-md-none d-sm-block ml-auto">
+						<a href="#" class="nav-link text-white"  data-toggle="collapse" data-target="#left_col_collapse" aria-controls="left_col_collapse" aria-expanded="false" aria-label="Toggle navigation" title="See Menu!" style=""><i class="fas fa-angle-double-down"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<!--end of Fixed Nav Items -->
+
+			<!-- Mediam screen device nav-content -->
+			<ul class="navbar-nav flex-row mr-md-auto d-none d-md-flex">
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="Create"><i class="fas fa-plus-square fa-1x"></i><p class="d-none d-lg-inline-block m-0 ml-1 py-0">Create</p></a>
+					<ul class="dropdown-menu" aria-labelledby="dropdown_target">
+						<li><a class="dropdown-item" href="#"><i class="far fa-question-circle mr-1"></i>Help!</a></li>
+						<li role="separator" class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#"><i class="far fa-calendar-alt mr-1"></i>Create Event</a></li>
+						<li role="separator" class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#">Create Page</a></li>
+						<li role="separator" class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="createuniversity.php">Create University</a></li>
+						<li role="separator" class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="createbranch.php">Create Branch</a></li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="More"><i class="fas fa-caret-down fa-1x"></i><p class="d-none d-lg-inline-block m-0 ml-1 py-0">More!</p></a>
+					<ul class="dropdown-menu" aria-labelledby="dropdown_target">
+						<li><a class="dropdown-item" href="#"><i class="far fa-question-circle mr-1"></i>Help!</a></li>
+						<li role="separator" class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#"><i class="fas fa-cog mr-1"></i>Settings</a></li>
+						<li role="separator" class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#">Manage Page</a></li>
+						<li><a class="dropdown-item" href="#">Mange Branch</a></li>
+					</ul>
+				</li>
+			</ul>
+			<!-- Logout Right Side -->
+			<a class="nav-link text-white d-none d-md-inline-block" href="logout.php" title="Logout"><i class="fas fa-sign-out-alt"></i><p class="d-none d-lg-inline-block m-0 ml-1 py-0">Logout</p></a>
+			<!-- end of Mediam screen device nav-content -->
+		</header>
+		<!-- END OF HEADER -->

@@ -1,0 +1,491 @@
+{% load static %}
+{% load staticfiles %}
+{% load notifications_tags %}
+<!DOCTYPE html >
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block head_title %}Edunity{% endblock head_title %}</title>
+
+    <script src="https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"></script>
+    <script type="text/javascript">
+      function openEditor(textareaID) {
+        win = window.open(
+          // 'http://yoursite/vme/VisualMathEditor.html?codeType=Latex&encloseAllFormula=0&textarea=' + textareaID
+          'http://127.0.0.1:8000/media/vme/VisualMathEditor.html?codeType=Latex&encloseAllFormula=0&textarea=' + textareaID
+          ,'VisualMathEditor'
+          ,'height=580,width=780,top=100,left=100,status=yes,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no,modal=no,dependable=yes'
+        );
+        win.focus();
+      }
+    </script>
+
+    <script type="text/javascript" src="http://latex.codecogs.com/editor3.js"></script>
+
+
+    <!-- MathJax CDN -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX","output/HTML-CSS"],
+        tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+      });
+    </script>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'dist/css/bootstrap-reboot.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/bootstrap.min.css' %}">
+    <!-- Font awesome -->
+    <script src="{% static 'fontawesome/js/all.js' %}"></script>
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+    <!-- Prettify -->
+    <link rel="stylesheet" type="text/css" href="{% static 'dist/prettify/skins/belal.css' %}">
+    <script type="text/javascript" src="{% static 'dist/prettify/prettify.js' %}"></script>
+
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+
+
+
+
+
+
+
+
+    <!-- Optional theme -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous" /> -->
+
+    <!-- <link rel='stylesheet' href='{% static "css/bootstrap-theme.min.css" %}' /> -->
+
+    <!-- <link rel='stylesheet' href="{% static 'offlinesrc/fntw5/css/fontawesome.min.css' %}" > -->
+
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' >
+
+
+    <link rel='stylesheet' href='{% static "css/base.css" %}' />
+
+    <!-- Custom CSS -->
+    <style>
+        /* To remove caret from dropdown */
+        .caret-off::before {
+            display: none;
+        }
+        .caret-off::after {
+            display: none;
+        }
+        body{
+            background-color:  #f7f7f7/* #e9ebee */;
+            height: 100%
+        }
+        .left_col {
+          position: relative;
+          max-height: calc(100vh - 3rem);
+          overflow-y: auto;
+        }
+        .main_col {
+          position:  relative;
+          max-height: calc(100vh - 3rem);
+          overflow-y: auto;
+        }
+
+        .right_col {
+          position: relative;
+          max-height: calc(100vh - 3rem);
+          overflow-y: auto;
+        }
+
+        /* // Large devices (desktops, 992px and up)
+            https://getbootstrap.com/docs/4.0/layout/overview/#responsive-breakpoints
+        */
+        @media (min-width: 992px) {
+          /* Custom Scrollbar. Note: The -webkit-scrollbar is not supported by Firefox or IE and Edge. */
+          /* width */
+            ::-webkit-scrollbar {
+              width: 5px;
+            }
+
+            /* Track */
+            ::-webkit-scrollbar-track {
+              background: #f1f1f1;
+            }
+
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+              background: #888;
+            }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+              background: #555;
+            }
+        }
+        /* pre {
+            background-color: #f6f8fa !important;
+            padding: 16px !important;
+        }
+         */
+    </style>
+
+{% block style %}{% endblock style %}
+
+
+{% block head_extra %} {% endblock head_extra %}
+</head>
+<body>
+    <!-- HEADER -->
+    {% include "header_nav.html" %}
+    <!-- END OF HEADER -->
+
+    <!-- MAIN BODY  CONTAINER -->
+    <div class="container-fluid pt-0 pt-md-1 ">
+        <!-- gap-for-fixed-navbar -->
+        <div class="row my-3 py-1"></div>
+        <!-- Container-row -->
+        <div class="row flex-xl-nowrap feed">
+
+            <!-- Message Display -->
+            <div class="bg-info">{% include "messages_display.html" %}</div>
+
+            <!-- LEFT-Sidebar -->
+            <nav id="left_col_collapse" class="left_col collapse navbar col-12 col-md-3 col-xl-3 pr-1 d-md-inline-block">
+            {% block left_sidebar %}{% endblock left_sidebar %}
+            </nav>
+            <!-- LEFT-Sidebar -->
+
+            <!-- MAIN-FEED  -->
+            <main class="main_col col-12 col-md-9 col-xl-7 m-0 p-0 px-md-3 bd-content" role="main">
+            {% block content %}{% endblock content %}
+            </main>
+            <!-- End of MAIN-FEED -->
+
+            <!-- RIGHT SIDE CONTENT -->
+            <div class="right_col d-none d-xl-block col-xl-2" style="">
+            {% block right_sidebar %}{% endblock right_sidebar %}
+            </div>
+        </div>
+        <!-- Container-row -->
+    </div>
+    <!--END OF MAIN BODY -->
+
+
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script   src="http://code.jquery.com/jquery-1.12.2.min.js"   integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="   crossorigin="anonymous"></script>
+
+
+<!-- Jquery -->
+<script src="{% static 'dist/jquery/jquery-3.3.1.min.js' %}"></script>
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<!-- <script src="{% static 'dist/popper/popper.min.js' %}"></script> -->
+<!-- Bootstrap js -->
+<script src="{% static 'dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Custom JavaScript -->
+<!-- <script src="cust/js/b4_sidebar.js"></script> -->
+<!-- Then run the PR.prettyPrint() function once your page has finished loading. -->
+<script>
+    var elements = document.getElementsByTagName('pre');
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.add("prettyprint");
+        // elements[i].classList.add("linenums");
+    }
+    // document.getElementsByTagName('div')
+    PR.prettyPrint();
+</script>
+
+
+
+
+<!-- <script src="{% static 'dist/jquery-3.3.1.min.js' %}" ></script> -->
+<script src="{% static 'offlinesrc/popper.min.js' %}" ></script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js'></script> -->
+
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.0/marked.min.js'></script>
+ -->
+<script type="text/javascript">
+$(document).ready(function(){
+    const stackedit = new Stackedit();
+
+    $(".content-markdown").each(function(){
+            // var content = $(this).text()
+            // var markedContent = marked(content)
+            // $(this).html(markedContent)
+
+            // stackedit
+            const el = $(this)
+            // if (content_text == null) {
+            //     console.log("contet is null");
+            // }
+            // else{
+            //     console.log(el.value);
+            // }
+            const stackedit = new Stackedit();
+            stackedit.openFile({
+              name: 'Filename',
+              content: { text: el.text() }
+            }, true /* silent mode */);
+
+            // In silent mode, the `fileChange` event is emitted only once.
+            stackedit.on('fileChange', (file) => {
+              // divEl.innerHTML = file.content.html;
+              // $(this).innerHTML = file.content.html;
+              // console.log(file.content.html);
+              $(".content-markdown").html(file.content.html)
+            });
+
+    })
+    $(".post-detail-item img").each(function(){
+            $(this).addClass("img-responsive");
+    })
+
+
+
+    var contentInput = $("#id_content");
+
+    function setContent(value){
+        // var markedContent = marked(value)
+        // $("#preview-content").html(markedContent)
+        //
+        // stackedit
+        stackedit.openFile({
+          name: 'Filename',
+          content: { text: value }
+        }, true /* silent mode */);
+
+        // In silent mode, the `fileChange` event is emitted only once.
+        stackedit.on('fileChange', (file) => {
+          // divEl.innerHTML = file.content.html;
+          // $(this).innerHTML = file.content.html;
+          $("#preview-content").html(file.content.html)
+        });
+
+        $("#preview-content img").each(function(){
+            $(this).addClass("img-responsive")
+        })
+    }
+    if(contentInput.val() != null){ // when #id_content is present in doc
+        setContent(contentInput.val())
+
+        contentInput.keyup(function(){
+            var newContent = $(this).val()
+            setContent(newContent)
+        })
+    }
+
+
+    var titleInput = $("#id_title");
+
+
+
+    function setTitle(value) {
+        $("#preview-title").text(value)
+    }
+    setTitle(titleInput.val())
+
+    titleInput.keyup(function(){
+        var newContent = $(this).val()
+        setTitle(newContent)
+    })
+
+    $(".comment-reply-btn").click(function(event){
+        event.preventDefault();
+        $(this).parent().next(".comment-reply").fadeToggle();
+    })
+
+
+    // preview-title
+    // preview-content
+    //
+
+    // Preview for create_CQ
+
+    // question field
+    var questionInput = $("#id_question");
+
+    function setQuestion(value){
+        var markedQuestion = marked(value)
+        $("#preview-question").html(markedQuestion)
+        $("#preview-question img").each(function(){
+            $(this).addClass("img-responsive")
+        })
+    }
+    if(questionInput.val() != null){ // when #id_question is present in doc
+        setQuestion(questionInput.val())
+
+        questionInput.keyup(function(){
+            var newQuestion = $(this).val()
+            setQuestion(newQuestion)
+        })
+    }
+
+    // answer field
+    var answerInput = $("#id_answer");
+
+    function setAnswer(value){
+        var markedAnswer = marked(value)
+        $("#preview-answer").html(markedAnswer)
+        $("#preview-answer img").each(function(){
+            $(this).addClass("img-responsive")
+        })
+    }
+    if(answerInput.val() != null){ // when #id_question is present in doc
+        setAnswer(answerInput.val())
+
+        answerInput.keyup(function(){
+            var newAnswer = $(this).val()
+            setAnswer(newAnswer)
+        })
+    }
+
+
+    // Preview for create_MCQ
+
+    // question field
+    var questionInput = $("#id_question");
+
+    function setQuestion(value){
+        var markedQuestion = marked(value)
+        $("#preview-question").html(markedQuestion)
+        $("#preview-question img").each(function(){
+            $(this).addClass("img-responsive")
+        })
+    }
+    if(questionInput.val() != null){ // when #id_question is present in doc
+        setQuestion(questionInput.val())
+
+        questionInput.keyup(function(){
+            var newQuestion = $(this).val()
+            setQuestion(newQuestion)
+        })
+    }
+
+    // choices field
+    var choicesInput = $("#id_choices");
+
+    function setChoices(value){
+        var markedChoices = marked(value)
+        $("#preview-choices").html(markedChoices)
+        $("#preview-choices img").each(function(){
+            $(this).addClass("img-responsive")
+        })
+    }
+    if(choicesInput.val() != null){ // when #id_question is present in doc
+        setChoices(choicesInput.val())
+
+        choicesInput.keyup(function(){
+            var newChoices = $(this).val()
+            setChoices(newChoices)
+        })
+    }
+
+})
+
+</script>
+
+<script type="text/javascript">
+
+  // const el = document.querySelector('textarea');
+
+  function callStackedit(){
+    const el = document.querySelector('textarea');
+    const stackedit = new Stackedit();
+    // Open the iframe
+    stackedit.openFile({
+        name: 'Filename', // with an optional filename
+        content: {
+          text: el.value // and the Markdown content.
+        }
+    });
+
+    // Listen to StackEdit events and apply the changes to the textarea.
+    stackedit.on('fileChange', (file) => {
+        el.value = file.content.text;
+    });
+  }
+
+</script>
+<script>
+function my_special_notification_callback(data) {
+    for (var i=0; i < data.unread_list.length; i++){
+        msg = data.unread_list[i];
+        try{
+            var url = msg['data']['data']['url'];
+        }
+        catch{
+            url = '#';
+        }
+        console.log('url:',url);
+        var list_item_id = 'n_l_'+msg['id'];
+        var list_item = document.getElementById(list_item_id);
+        if(list_item == null){
+            list_item = document.createElement("li");
+            list_item.id = list_item_id;
+            list_item.setAttribute('class', 'm-2 p-2')
+            var node = document.createTextNode(msg['verb']+" at "+msg['timestamp']);
+            var link = document.createElement("a");
+            link.setAttribute('href', url);
+            link.setAttribute('class','m-2 p-2');
+            link.setAttribute('style','color: #60c685');
+            link.appendChild(node);
+            // para = document.createElement("p");
+            document.getElementById("notify_list").appendChild(list_item).appendChild(link);
+        }else{
+            // ;
+        }
+    }
+}
+</script>
+<script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+{% register_notify_callbacks fetch='20' callbacks='fill_notification_list,fill_notification_badge,my_special_notification_callback' %}
+
+
+
+
+{% block lastscript %}
+{% endblock lastscript %}
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css" integrity="sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js" integrity="sha384-2BKqo+exmr9su6dir+qCw08N2ZKRucY4PrGQPPWU1A7FtlCGjmEGFqXCv5nyM5Ij" crossorigin="anonymous"></script> -->
+<!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script> -->
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // $(".content-markdown").each(function(){
+            renderMathInElement($('.katex--display'), {
+                // ...options...
+            });
+        // }
+    });
+</script> -->
+
+<!-- <script type="text/javascript"
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js">
+</script> -->
+
+</body>
+</html>
+
+
+
+
