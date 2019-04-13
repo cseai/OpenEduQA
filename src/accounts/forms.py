@@ -6,7 +6,8 @@ from pagedown.widgets import PagedownWidget
 
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-
+# datetimepicker
+from bootstrap_datepicker_plus import DateTimePickerInput, DatePickerInput
 
 User = get_user_model()
 # from .models import User
@@ -18,7 +19,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('name', 'username', 'email', 'is_student', 'is_teacher')
+        fields = ('name', 'username', 'email', 'gender', 'is_student', 'is_teacher')
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -53,10 +54,11 @@ class RegisterForm(forms.ModelForm):
 
 class UserUpdateForm(forms.ModelForm):
     bio = forms.CharField(widget=PagedownWidget(show_preview=False))
+    birth_date = forms.DateField(widget=DatePickerInput())
 
     class Meta:
         model = User
-        fields = ('name', 'bio', 'current_address', 'parmanent_address', 'is_student', 'is_teacher', 'image', 'follows')
+        fields = ('name', 'birth_date', 'birth_date_public', 'gender', 'bio', 'current_address', 'parmanent_address', 'is_student', 'is_teacher', 'image', 'follows')
 
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)

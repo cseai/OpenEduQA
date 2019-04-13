@@ -68,8 +68,10 @@ class UserManager(BaseUserManager):
 def upload_location(instance, filename):
     filebase, extension = filename.split(".")
     new_filename = f"{ int(time.time() * 1000) }_{filebase}.{extension}"
-    UserModel = instance.__class__
-    new_id = UserModel.objects.order_by("id").last().id + 1
+    # id genaration have some problem so don't use it
+    # UserModel = instance.__class__
+    # new_id = UserModel.objects.order_by("id").last().id + 1
+    new_id = 'profile_img'
     app_name = "accounts"
     return "%s/%s/%s" % (app_name, new_id, new_filename)
 
@@ -92,6 +94,23 @@ class User(AbstractBaseUser):
     )
 
     name = models.CharField(max_length=40, blank=True)
+
+    MALE = 'm'
+    FEMALE = 'f'
+    OTHERS = 'o'
+    GENDER_CHOICES = (
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (OTHERS, 'Others'),
+    )
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+        default=MALE
+    )
+
+    birth_date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    birth_date_public = models.BooleanField(default=False)
 
     current_address = models.CharField(max_length=255, blank=True)
     parmanent_address = models.CharField(max_length=255, blank=True)
@@ -221,7 +240,7 @@ def post_save_user_receiver(sender, instance, created, *args, **kwargs):
 
         if instance.is_student:
             if student_obj:
-                if student_obj.is_active == False:
+                if not student_obj.is_active:
                     student_obj.active = True
                     student_obj.save()
                     print("student is_active was False and now it is", student_obj.is_active)

@@ -23,10 +23,10 @@ def login_view(request, *args, **kwargs):
             login(request, user_obj)
             if next:
                 return redirect(next)
-            return redirect("/article")
+            return redirect("/accounts/user")
         return render(request, "login_form.html", {"form": form, "title": title})
     else:
-        return redirect("/")
+        return redirect("/accounts/user")
 
 
 def register_view(request, *args, **kwargs):

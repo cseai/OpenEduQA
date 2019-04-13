@@ -3,18 +3,21 @@ from django.db import models
 from django.urls import reverse
 from level.models import Level
 from django.contrib.postgres.fields import ArrayField
+from django.conf import settings
 
 
 def upload_location(instance, filename):
     filebase, extension = filename.split(".")
     new_filename = f"{ int(time.time() * 1000) }_{filebase}.{extension}"
-    SubjectModel = instance.__class__
-    new_id = SubjectModel.objects.order_by("id").last().id + 1
+    # SubjectModel = instance.__class__
+    # new_id = SubjectModel.objects.order_by("id").last().id + 1
+    new_id = 'subject'
     app_name = "course"
     return "%s/%s/%s" % (app_name, new_id, new_filename)
 
 
 class Subject(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=10)

@@ -1,18 +1,21 @@
 import time
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.conf import settings
 
 
 def upload_location(instance, filename):
     filebase, extension = filename.split(".")
     new_filename = f"{ int(time.time() * 1000) }_{filebase}.{extension}"
-    LevelModel = instance.__class__
-    new_id = LevelModel.objects.order_by("id").last().id + 1
+    # LevelModel = instance.__class__
+    # new_id = LevelModel.objects.order_by("id").last().id + 1
+    new_id = 'level'
     app_name = "level"
     return "%s/%s/%s" % (app_name, new_id, new_filename)
 
 
 class Level(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=10)
     short_name = models.CharField(max_length=10)
