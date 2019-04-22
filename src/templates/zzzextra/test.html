@@ -1,0 +1,24 @@
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" />
+      function openEditor(textareaID) {
+        win = window.open(
+          <!-- 'http://yoursite/vme/VisualMathEditor.html?codeType=Latex&encloseAllFormula=0&textarea=' + textareaID -->
+          'http://127.0.0.1:8000/media/vme/VisualMathEditor.html?codeType=Latex&encloseAllFormula=0&textarea=' + textareaID
+          ,'VisualMathEditor'
+          ,'height=580,width=780,top=100,left=100,status=yes,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=no,modal=no,dependable=yes'
+        );
+        win.focus();
+      }
+    </script>
+  </head>
+  <body>
+    <form id="formEquation1" action="#" method="post" />
+      <fieldset>
+        <textarea id="YourTextareaID" name="equation1" cols="50" rows="1">\sqrt{\frac{d}{dx} a^x = a^x ln(a)}</textarea>
+        <a href="javascript:openEditor('YourTextareaID');">Open equation</a>
+      </fieldset>
+    </form>
+  </body>
+</html>

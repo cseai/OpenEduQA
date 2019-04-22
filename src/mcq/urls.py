@@ -9,6 +9,7 @@ from .views import (
     mcq_detail,
     mcq_update,
     mcq_delete,
+    mcq_add_form,
 )
 
 app_name = 'mcq'
@@ -16,9 +17,10 @@ urlpatterns = [
     # path('', index_page, name='index'),
     path('', mcq_list, name='list'),
     path('create/', mcq_create, name='create'),
-    path('<id>/', mcq_detail, name='detail'),
-    path('<id>/edit/', mcq_update, name='update'),
-    path('<id>/delete/', mcq_delete),
+    path('<int:id>/', mcq_detail, name='detail'),
+    path('<int:id>/edit/', mcq_update, name='update'),
+    path('<int:id>/delete/', mcq_delete),
     #
     # path('editor/', latex_editor, name='editor'),
+    path('test/', mcq_add_form, name='test'),
 ]

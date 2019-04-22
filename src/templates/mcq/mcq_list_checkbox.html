@@ -20,9 +20,9 @@
               <dl class="row">
                 <dt class="col-sm-1">{{forloop.counter}}.</dt>
                 <dd class="col-sm-11">
-                {{ obj.get_html_question }}
+                {{ obj.question }} <!-- get_html_question -->
 
-                {% for choice in obj.get_html_choices %}
+                {% for choice in obj.choices %} <!-- obj.get_html_choices -->
                   <div class="form-check" >
                     <input class="form-check-input" type="checkbox" name="{{forloop.parentloop.counter}}" id="{{forloop.parentloop.counter}}-{{forloop.counter}}" value="{{forloop.counter}}">
                     <label class="form-check-label" id="label-{{forloop.parentloop.counter}}-{{forloop.counter}}" for="{{forloop.parentloop.counter}}-{{forloop.counter}}" style="display: inline-block;">
@@ -42,11 +42,11 @@
                       <p class="text-warning">N.B: <span class="text-info"> No answers exist!</span></p>
                     {% elif obj.get_answer_len > 1 %}
                       <p class="text-warning">N.B: <span class="text-info"> More than 1 answers exist!</span></p>
-                      {% for ans in obj.get_html_answer %}
+                      {% for ans in obj.answer_text %} <!-- obj.get_html_answer -->
                         <div class="">Answer-{{ forloop.counter }} : {{ ans }}</div>
                       {% endfor %}
                     {% else %}
-                        {% for ans in obj.get_html_answer %}
+                        {% for ans in obj.answer_text %}  <!-- obj.get_html_answer -->
                           <div class="">Answer : {{ ans }}</div>
                         {% endfor %}
                     {% endif %}

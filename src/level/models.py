@@ -1,7 +1,21 @@
 import time
-from django.db import models
-from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
+# from django.contrib.contenttypes.models import ContentType
+from django.urls import reverse
+from django.db import models
+# from django.db.models.signals import pre_save, post_save
+# from notifications.signals import notify
+# from django.dispatch import receiver
+
+# from django.utils import timezone
+# from django.utils.safestring import mark_safe
+# from django.utils.text import slugify
+from django.contrib.postgres.fields import ArrayField
+
+
+class LevelManager(models.Manager):
+    def active(self, *args, **kwargs):
+        return super(LevelManager, self).filter(active=True, draft=False)
 
 
 def upload_location(instance, filename):
@@ -35,14 +49,26 @@ class Level(models.Model):
     height_field = models.IntegerField(default=0)
     width_field = models.IntegerField(default=0)
 
+    draft = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     # initial_year =
     # finished_year =
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
+    objects = LevelManager()
+
     def __str__(self):
-        return self.name
+        return f"{self.name} [{self.short_name}]"
+
+    def get_absolute_url(self):
+        return reverse("level:detail", kwargs={"id": self.id})
+
+    def get_update_url(self):
+        return reverse("level:update", kwargs={"id": self.id})
+
+    def get_delete_url(self):
+        return reverse("level:delete", kwargs={"id": self.id})
 
     class Meta:
         ordering = ["ordering_code", "code", "name"]

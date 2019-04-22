@@ -13,7 +13,7 @@
 
 
 {% block content %}
-<div class=''>
+<div class='card'>
 	{% if instance.image %}
 	<img src='{{ instance.image.url }}' class='img-responsive' />
 	{% endif %}
@@ -38,7 +38,7 @@
 	<div class='row'>
 		<div class='col-sm-12 '>
 			<div class=''> <!-- post-detail-item content-markdown -->
-				{{ instance.get_html_question }}
+				{{ instance.question }} <!-- instance.get_html_question -->
 			</div>
 			<hr/>
 			<div>
@@ -46,8 +46,8 @@
 					<fieldset>
 						<div class="row">
 							<!-- <ol class=""> -->
-							{% for choice in instance.get_html_choices %}
-								<div class="form-check" >
+							{% for choice in instance.choices %}  <!-- instance.get_html_choices -->
+								<div class="form-check" style="overflow: hidden;">
 									<input class="form-check-input" type="radio" name="choice{{instance.id}}" id="exampleRadio-{{instance.id}}-{{forloop.counter}}" value="option{{forloop.counter}}">
 									<label class="form-check-label" for="exampleRadio-{{instance.id}}-{{forloop.counter}}" style="display: inline-block;"> <!-- style="display: inline;" -->
 											{{choice}}
@@ -64,11 +64,11 @@
 										<p class="text-warning">N.B: <span class="text-info"> No answers exist!</span></p>
 									{% elif instance.get_answer_len > 1 %}
 										<p class="text-warning">N.B: <span class="text-info"> More than 1 answers exist!</span></p>
-										{% for ans in instance.get_html_answer %}
+										{% for ans in instance.answer %} <!-- instance.get_html_answer -->
 											<div class="">Answer-{{ forloop.counter }} : {{ ans }}</div>
 										{% endfor %}
 									{% else %}
-											{% for ans in instance.get_html_answer %}
+											{% for ans in instance.answer_text %} <!-- get_html_answer -->
 												<div class="">Answer : {{ ans }}</div>
 											{% endfor %}
 									{% endif %}
@@ -79,20 +79,8 @@
 
 					</fieldset>
 				</ul>
-				<div class="" style="display: none">Answer:
-					{% for ans in instance.get_markdown_answer %}
-							<div class=""> {{ ans }}</div>
-					{% endfor %}
-				</div>
-			</div>
-
-			<div id="ans_{{instance.id}}" class="collapse m-3 p-3 card">
-				<div class="card-body thumbnail">
-					{{ instance.get_html_answer }}
-				</div>
 			</div>
 			<br>
-
 		</div>
 	</div>
 </div>

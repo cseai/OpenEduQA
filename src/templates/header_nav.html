@@ -110,8 +110,43 @@
 
         <!-- Mediam screen device nav-content -->
 
-        <!-- Create -->
+        <!-- Go -->
         <ul class="navbar-nav flex-row mr-md-auto d-none d-md-flex">
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="Go to specific section">
+                    <!-- <i class="fas fa-plus-square fa-1x"></i> -->
+                    <p class="d-none d-lg-inline-block m-0 ml-1 py-0">Go</p>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown_target">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'level:list' %}">
+                            <!-- <i class="fas fa-book"></i> -->
+                            <span>Level List</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'course:list' %}">
+                            <!-- <i class="far fa-calendar-alt mr-1"></i> -->
+                            <span>Subject List</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'mcq:test' %}">
+                            <!-- <i class="fas fa-book"></i> -->
+                            <span>Test MCQ Form</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="far fa-question-circle mr-1"></i>
+                            <span>Help!</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle caret-off text-white" data-toggle="dropdown" data-target="#dropdown_target" role="button" aria-haspopup="true" aria-expanded="false" title="Create">
                     <i class="fas fa-plus-square fa-1x"></i>
@@ -164,6 +199,20 @@
                         <a class="dropdown-item" href="{% url 'mcq:create' %}">
                             <i class="fas fa-book"></i>
                             <span>Create MCQ</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'level:create' %}">
+                            <!-- <i class="fas fa-book"></i> -->
+                            <span>Create Level</span>
+                        </a>
+                    </li>
+                    <li role="separator" class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'course:create' %}">
+                            <!-- <i class="fas fa-book"></i> -->
+                            <span>Create Subject</span>
                         </a>
                     </li>
                     <li role="separator" class="dropdown-divider"></li>

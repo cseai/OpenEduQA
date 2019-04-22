@@ -33,7 +33,7 @@
                 {% endif %}
                 <p class="pl-3 card-subtitle d-flex justify-content-between">
                     {% if instance.user.get_full_name %}
-                        <span class="text-muted">Author:</span> <a class="text-muted" href="{{ instance.user.get_user_url }}">{{ instance.user.get_full_name }}</a>
+                        <span class="text-muted">Author: <a class="text-muted" href="{{ instance.user.get_user_url }}">{{ instance.user.get_full_name }}</a></span>
                     {% endif %}
                     <small class="ml-1 pl-1">{{ instance.publish }}</small>
                     <small class="ml-1 pl-1">Read: {% if instance.read_time <= 1 %} < 1 Minute {% else %}{{ instance.read_time }} Minutes {% endif %}</small>
@@ -69,7 +69,7 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
-            <p class="card-text">{{ instance.get_html }}</p>
+            <p class="card-text">{{ instance.content }}</p> <!-- instance.get_html -->
         </div>
 
 
@@ -101,7 +101,7 @@
                 <blockquote>
                   <p>{{ comment.content }}</p>
                   <footer>via {{ comment.user }} | {{ comment.timestamp|timesince }} ago | {% if comment.children.count > 0 %}{{ comment.children.count }} Comment{% if comment.children.count > 1 %}s{% endif %} | {% endif %} <a class='comment-reply-btn' href='#'>Reply</a> | <a class='' href='{{ comment.get_absolute_url }}'>Thread</a></footer>
-                  <div class='comment-reply'>
+                  <div class='comment-reply'>  
                       {% for child_comment in comment.children %}
                         <blockquote>
                         <p>{{ child_comment.content }}</p>

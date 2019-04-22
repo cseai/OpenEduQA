@@ -45,6 +45,9 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('posts/', include("posts.urls")),
 
+    path('level/', include("level.urls")),
+    path('course/', include("course.urls")),
+
     path('article/', include("article.urls")),
     path('cq/', include("cq.urls")),
     path('mcq/', include("mcq.urls")),

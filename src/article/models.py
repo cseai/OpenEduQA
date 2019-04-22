@@ -149,9 +149,17 @@ def pre_save_article_receiver(sender, instance, *args, **kwargs):
 def post_save_article_receiver(sender, instance, created, *args, **kwargs):
     if created:
         if instance.draft != True:
-            verb = f"{instance.user.name} wrote an Article {instance.title}."
+            try:
+                recipient_users = instance.user.user_set.all()
+            except:
+                recipient_users = None
+            if recipient_users:
+                verb = f"{instance.user.name} wrote an Article {instance.title}."
+                data = {'url': instance.get_absolute_url()}
+                notify.send(instance, recipient=recipient_users, verb=verb, data=data)
+            verb = f"Your article {instance.title} created successfully."
             data = {'url': instance.get_absolute_url()}
-            notify.send(instance, recipient=instance.user.user_set, verb=verb, data=data)
+            notify.send(instance, recipient=instance.user, verb=verb, data=data)
         else:
             verb = f"Your article {instance.title} was saved as Draft! You can edit and publish it anytime."
             data = {'url': instance.get_absolute_url()}

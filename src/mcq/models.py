@@ -36,7 +36,7 @@ class Mcq(models.Model):
     width_field = models.IntegerField(default=0)
 
     choices = ArrayField(
-        models.CharField(max_length=120),
+        models.CharField(max_length=500),  # 120
         size=10,
     )
     answer = ArrayField(
@@ -76,6 +76,13 @@ class Mcq(models.Model):
 
     class Meta:
         ordering = ["-timestamp", "-updated"]
+
+    @property
+    def answer_text(self):
+        content = []
+        for ans in self.answer:
+            content.append(self.choices[ans - 1])
+        return content
 
     def get_markdown_question(self):
         '''[summary]

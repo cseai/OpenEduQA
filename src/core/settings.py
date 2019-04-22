@@ -74,6 +74,13 @@ INSTALLED_APPS = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
+# added by belal for customising pagdown template
+
+# Import the default pagedown css first, then our custom CSS sheet
+# to avoid having to specify all the default styles
+PAGEDOWN_WIDGET_CSS = ('pagedown/demo/browser/demo.css', "pagedown/custom/css1.css",)
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -101,11 +108,13 @@ TEMPLATES = [
                  os.path.join(BASE_DIR, 'templates/cq'),
                  os.path.join(BASE_DIR, 'templates/cqexam'),
                  os.path.join(BASE_DIR, 'templates/exam'),
+                 os.path.join(BASE_DIR, 'templates/level'),
                  os.path.join(BASE_DIR, 'templates/mcq'),
                  os.path.join(BASE_DIR, 'templates/mcqexam'),
                  os.path.join(BASE_DIR, 'templates/posts'),
                  os.path.join(BASE_DIR, 'templates/room'),
                  os.path.join(BASE_DIR, 'templates/teacher'),
+                 os.path.join(BASE_DIR, 'templates/course'),
                  os.path.join(BASE_DIR, 'templates/student'),
                  os.path.join(BASE_DIR, 'VisualMathEditor'),
                  ],

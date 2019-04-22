@@ -12,7 +12,7 @@ from django.utils import timezone
 
 from django.urls import reverse
 
-from .forms import McqForm
+from .forms import McqForm, McqAddForm
 from .models import Mcq
 from course.models import Subject
 from article.models import Article
@@ -62,6 +62,9 @@ def mcq_create(request):
 
     form = McqForm(request.POST or None, request.FILES or None)
     if form.is_valid():
+        print(form.data)
+        chs = form.cleaned_data.get('choices')
+        print(chs)
         instance = form.save(commit=False)
         instance.user = request.user
         instance.save()
@@ -71,6 +74,7 @@ def mcq_create(request):
     context = {
         "form": form,
     }
+    print(form.data)
     return render(request, "mcq_form.html", context)
 
 
@@ -125,6 +129,14 @@ def mcq_update(request, id):
         return response
     form = McqForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
+        print(form.data)
+        chs = form.cleaned_data.get('choices')
+        print(chs)
+        # if form.data['choice_plus']:
+        #     for cn in form.data['choice_plus']:
+        #         chs.append(cn)
+
+        print(chs)
         instance = form.save(commit=False)
         instance.save()
         messages.success(request, "<a href='#'>Item</a> Saved", extra_tags='html_safe')
@@ -240,3 +252,22 @@ def vme_editor(request):
 
 def openvme(request):
     return render(request, "VisualMathEditor.html", {})
+
+
+def mcq_add_form(request):
+    form = McqAddForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.user = request.user
+        # instance.save()
+        # message success
+        # messages.success(request, "Successfully Created")
+        print(form.data)
+        return HttpResponseRedirect('/')
+    context = {
+        'title': "MCQ Add Form",
+        "form": form,
+    }
+    print(form)
+    print(form.data)
+    return render(request, "mcq_add_form.html", context)

@@ -22,7 +22,7 @@
                         {% for curc in request.user.student.current_courses.all %}
                             <li class="nav-link">
                                 <i class="fas fa-book-open fa-1x"></i>
-                                <a href="{{ curc.get_content_url }}" title="level: {{ curc.level }}">{{curc.name}} [<span class="text-muted">{{ curc.level }}</span>]</a>
+                                <a href="{{ curc.get_absolute_url }}" title="level: {{ curc.level }}">{{curc.name}} [<span class="text-muted">{{ curc.level.short_name }}</span>]</a>
                             </li>
                         {% endfor %}
                         </ul>
@@ -37,7 +37,7 @@
                         {% for comc in request.user.student.completed_courses.all %}
                             <li class="nav-link">
                                 <i class="fas fa-book-open fa-1x"></i>
-                                <a href="{{ comc.get_content_url }}" title="level: {{ comc.level }}">{{comc.name}} [<span class="text-muted">{{ comc.level }}</span>]</a>
+                                <a href="{{ comc.get_absolute_url }}" title="level: {{ comc.level }}">{{comc.name}} [<span class="text-muted">{{ comc.level.short_name }}</span>]</a>
                             </li>
                         {% endfor %}
                         </ul>
@@ -56,7 +56,7 @@
                         {% for c in request.user.teacher.courses.all %}
                             <li class="nav-link">
                                 <i class="fas fa-book-open fa-1x"></i>
-                                <a href="{{ c.get_content_url }}" title="level: {{ c.level }}">{{c.name}} [<span class="text-muted">{{ c.level }}</span>]</a>
+                                <a href="{{ c.get_absolute_url }}" title="level: {{ c.level }}">{{c.name}} [<span class="text-muted">{{ c.level.short_name }}</span>]</a>
                             </li>
                         {% endfor %}
                         </ul>

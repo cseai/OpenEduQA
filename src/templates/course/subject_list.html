@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class=''>
+    <!-- Title, Media, Description and Action Card -->
+    {% for obj in object_list %}
+    <div class="card pmd-card" style="box-shadow:0 8px 28px 0px #e0e0e0; margin-bottom:18px;">
+        <!-- Card Header -->
+        <div class="card-header d-flex flex-row" style="background-color:white;">
+            <a class="pmd-avatar-list-img" href="javascript:void(0);">
+                {% if obj.image  %}
+                  <img src="{{ obj.image.url }}" width="40" height="40">
+                {% endif %}
+            </a>
+            <div class="media-body">
+                <h3 class="card-title pl-3">
+                    <a class="text-dark" href='{{ obj.get_absolute_url }}'>{{ obj.name }}</a>
+                    <small class="font-weight-bold text-muted">[{{ obj.short_name }}]</small>
+                </h3>
+                {% if obj.draft %}
+                    <h3>Staff only: Draft</h3>
+                {% endif %}
+                <p class="pl-3">
+                    <span>Level: <a href="{{obj.level.get_absolute_url}}">{{ obj.level.name }} [{{ obj.level.short_name }}]</a></span>
+                </p>
+                {% if obj.related_names %}
+                <p class="pl-3">
+                    <small class="text-muted">Related Names:</small>
+                    {% for rn in obj.related_names %}
+                        <small class="text-muted pl-1">{{ rn }},</small>
+                    {% endfor %}
+                </p>
+                {% endif %}
+                <p class="pl-3 card-subtitle d-flex justify-content-between">
+                    <small class="text-muted">Medium: {{ obj.get_medium }}</small>
+                    <small class="text-muted">Code: {{ obj.code }}</small>
+                    <small class="ml-1 pl-1 float-right">
+                        <a href="#subject_update_link_{{ obj.id }}" data-toggle="collapse" aria-expanded="true" class="nav-link dropdown-toggle caret-off text-muted"><i class="fas fa-ellipsis-h"></i></a>
+                    </small>
+                </p>
+                <div class="collapse" id="subject_update_link_{{ obj.id }}">
+                    {% if obj.user.username == request.user.username %}
+                        <p class="float-right">
+                            <a class="btn-sm btn-info" href="{{ obj.get_update_url }}">Edit</a>
+
+                            <a class="btn-sm btn-danger" href="{{ obj.get_delete_url }}">Delete</a>
+                        </p>
+                    {% else %}
+                        <p class="float-right">
+                            <a class="btn-sm btn-info" href="#">Bookmark</a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Media -->
+        <div class="d-flex">
+            {% for tag in obj.tags %}
+            <div class="alert alert-primary" role="alert" style="min-width: 56px;height: 29px;text-align: center; padding:0px !important;">
+                <a href="?q={{ tag }}">
+                    <span class="text-muted small">{{ tag }}</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <p class="card-text">{{ obj.description|truncatechars_html:120 }}</p>
+        </div>
+
+
+        <!-- Card Actions -->
+        <div class="card-footer">
+            <a class="btn pmd-btn-flat btn-lg btn-block pmd-ripple-effect btn-outline-primary" href="{{ obj.get_absolute_url }}">See Details</a>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="pagination">
+        <div class="step-links">
+            {% if object_list.has_previous %}
+                <a class="btn btn-link text-info" href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            </span>
+
+            {% if object_list.has_next %}
+                <a class="btn btn-link text-info" href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">next</a>
+            {% endif %}
+        </div>
+        <br>
+        <br>
+    </div>
+</div>
+{% comment %}  {% endcomment %}
+{% endblock content %}
