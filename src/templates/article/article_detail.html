@@ -86,7 +86,8 @@
 
 
         <div class='card-body'>
-            <div><p class='lead'>Comments</p>
+            <div>
+                <p class='lead'>Comments</p>
                 {% if request.user.is_authenticated %}
                 <form method="POST" action="."> {% csrf_token %}
                     {{ comment_form|crispy }}

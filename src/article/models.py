@@ -65,7 +65,7 @@ class Article(models.Model):
 
     # level = models.ForeignKey(Level, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    tags = ArrayField(models.CharField(max_length=200), blank=True)
+    tags = ArrayField(models.CharField(max_length=200), null=True, blank=True)
 
     objects = ArticleManager()
 

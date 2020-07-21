@@ -49,6 +49,7 @@ urlpatterns = [
     path('course/', include("course.urls")),
 
     path('article/', include("article.urls")),
+    path('api/article/', include("article.api.urls")),
     path('cq/', include("cq.urls")),
     path('mcq/', include("mcq.urls")),
     path('mcqexam/', include("mcqexam.urls")),

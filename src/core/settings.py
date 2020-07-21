@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'markdown_deux',
     'pagedown',
     'notifications',
+    'rest_framework',
 
     # local apps
     'accounts',
@@ -78,7 +79,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Import the default pagedown css first, then our custom CSS sheet
 # to avoid having to specify all the default styles
-PAGEDOWN_WIDGET_CSS = ('pagedown/demo/browser/demo.css', "pagedown/custom/css1.css",)
+PAGEDOWN_WIDGET_CSS = ('pagedown/demo/browser/demo.css',
+                       "pagedown/custom/css1.css",)
 
 
 MIDDLEWARE = [
@@ -143,12 +145,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'openeduqa-v0-0',
+#         'USER': 'dbuser',
+#         'PASSWORD': 'postgres',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'openeduqa-v0-0',
-        'USER': 'dbuser',
-        'PASSWORD': 'dbpassword',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
