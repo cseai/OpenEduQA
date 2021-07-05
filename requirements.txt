@@ -1,17 +1,21 @@
-##### dependency ###########
 Django==2.0.7
+django-better-admin-arrayfield==1.0.1
+django-bootstrap-datepicker-plus==3.0.5
+django-bootstrap4==0.0.8
 django-crispy-forms==1.7.2
+django-filter==2.1.0
 django-markdown-deux==1.0.5
-django-pagedown==1.0.6
-markdown2==2.3.7
-Pillow==5.4.1
-# psycopg2==2.7.4
-psycopg2==2.8.4
-pytz==2018.9
-#############################
-############# Django-notifications ##########
-django-notifications-hq==1.5.0
-## automatic installed for Django-notification
 django-model-utils==3.1.2
+django-notifications-hq==1.5.0
+django-pagedown==1.0.6
+djangorestframework==3.9.2
+gunicorn==19.8.1
 jsonfield==2.0.2
-#############################################
+Markdown==3.1
+markdown2==2.3.7
+# Pillow==5.4.1
+Pillow
+# psycopg2==2.7.4
+# psycopg2==2.8.4
+psycopg2-binary
+pytz==2018.9
